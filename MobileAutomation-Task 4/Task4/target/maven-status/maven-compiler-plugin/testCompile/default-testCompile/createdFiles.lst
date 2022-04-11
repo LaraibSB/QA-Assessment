@@ -1,0 +1,3 @@
+setups\Hook.class
+steps\AppiumScenario.class
+runner\TestRunner.class
