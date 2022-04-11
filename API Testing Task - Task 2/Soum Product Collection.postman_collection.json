@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "205dde43-a07c-4c32-9729-c57f47504474",
+		"name": "Soum Product Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//CASE 1: VERITFY THE STATUS IS 200\r",
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"//Verify response contains product id.\r",
+							"pm.test(\"Body contains product id\", () => {\r",
+							"    pm.expect(pm.response.text()).to.include(\"_id\");\r",
+							"});\r",
+							"let jsonData = pm.response.json()\r",
+							"//Verify product _id is not null for any product.\r",
+							"pm.test(\"Response contains _id and is not null\", () => {\r",
+							"    _.each(jsonData.Responses, (item) => {\r",
+							"        pm.expect(item._id).is.not.null\r",
+							"    })\r",
+							"});\r",
+							"// Verify response time is less than 400 ms.\r",
+							"pm.test(\"Response time is less than 400ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"//Verify message contains success message.\r",
+							"pm.test(\"Message should contain success messsage\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.message).to.eql(\"Get Products successfully\");\r",
+							"});\r",
+							"//Verify end point does not return any unexpected response codes.\r",
+							"pm.test(\"Verify the endpoint does not return unexpected status codes\", () => {\r",
+							"    // comma separate the valid response codes below\r",
+							"    const unexpectedStatusCodes = [404, 500];\r",
+							"    pm.expect(pm.response.code).to.not.be.oneOf(\r",
+							"        unexpectedStatusCodes,\r",
+							"        `did not expect response status to be one of ${unexpectedStatusCodes} but got ${pm.response.code}.`\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}",
+					"host": [
+						"{{baseURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ask Seller About Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//CASE 1: VERITFY THE STATUS IS 200\r",
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Verify response time is less than 400 ms.\r",
+							"pm.test(\"Response time is less than 400ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"//Verify end point does not return any unexpected response codes.\r",
+							"pm.test(\"Verify the endpoint does not return unexpected status codes\", () => {\r",
+							"    // comma separate the valid response codes below\r",
+							"    const unexpectedStatusCodes = [404, 500];\r",
+							"    pm.expect(pm.response.code).to.not.be.oneOf(\r",
+							"        unexpectedStatusCodes,\r",
+							"        `did not expect response status to be one of ${unexpectedStatusCodes} but got ${pm.response.code}.`\r",
+							"    );\r",
+							"});\r",
+							"//VERIFY THE HEADER HAS CONTENT TYPE DEFINED\r",
+							"pm.test(\"Content-Type header is present\", function () {  \r",
+							"    pm.response.to.have.header(\"Content-Type\");  \r",
+							"}); \r",
+							"pm.test(\"Body contains _id\", () => {\r",
+							"    pm.expect(pm.response.text()).to.include(\"_id\");\r",
+							"});\r",
+							"pm.test(\"Body contains  _id and _id is not null\", () => {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData._id).not.eql(null);\r",
+							"});\r",
+							"pm.test(\"Body contains product_id\", () => {\r",
+							"    pm.expect(pm.response.text()).to.include(\"product_id\");\r",
+							"});\r",
+							"pm.test(\"Body contains  product_id and product_id is not null\", () => {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.product_id).not.eql(null);\r",
+							"});\r",
+							"pm.test(\"Body contains  questioner_id and questioner_id is not null\", () => {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.questioner_id).not.eql(null);\r",
+							"});\r",
+							"pm.test(\"Body contains  created_date and created_date is not null\", () => {\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.expect(jsonData.created_date).not.eql(null);\r",
+							"});\r",
+							"//Verify status contains success response.\r",
+							"pm.test(\"Response body should contain success status\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.status).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"questioner_id\": \"{{productID}}\",\r\n  \"question\": \"{{question}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/{{productID}}/ask-seller",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"{{productID}}",
+						"ask-seller"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://apiv2.qa.soum.sa/rest/api/v1/product",
+			"type": "string"
+		},
+		{
+			"key": "productID",
+			"value": "611a4942b4fc49a59f324bae",
+			"type": "string"
+		},
+		{
+			"key": "question",
+			"value": "How old is the phone?",
+			"type": "string"
+		}
+	]
+}
