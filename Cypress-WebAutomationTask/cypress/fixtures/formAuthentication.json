@@ -1,0 +1,14 @@
+{
+    "hrefLinkText": "/login",
+    "pageLinkText": "Form Authentication",
+    "pageURL": "login",
+    "LoginpageHeading": "Login Page",
+    "username": "tomsmith",
+    "password": "SuperSecretPassword!",
+    "invalidUsername": "admin",
+    "invalidPassword": "admin",
+    "errorMessage": "Your username is invalid!",
+    "landingPageHeading": "Secure Area",
+    "loginButton": "Login",
+    "logoutButton": "Logout"
+}
